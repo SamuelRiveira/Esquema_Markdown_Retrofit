@@ -34,7 +34,6 @@ implementation 'com.squareup.retrofit2:converter-gson:<version>'
 ```
 ### Paso 2: Crear interfaz de la API
 ```kotlin
-Copiar código
 interface ApiService {
     @GET("users")
     suspend fun getUsers(): List<User>
@@ -42,7 +41,6 @@ interface ApiService {
 ```
 ### Paso 3: Configurar Retrofit
 ```kotlin
-Copiar código
 val retrofit = Retrofit.Builder()
     .baseUrl("https://api.example.com/")
     .addConverterFactory(GsonConverterFactory.create())
@@ -52,6 +50,5 @@ val api = retrofit.create(ApiService::class.java)
 ```
 ### Paso 4: Realizar llamadas
 ```kotlin
-Copiar código
 val users = api.getUsers()
 ```
