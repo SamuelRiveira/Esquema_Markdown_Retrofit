@@ -1,20 +1,57 @@
 # Retrofit
+## ¿Qué es Retrofit?
+- Biblioteca de cliente HTTP para Android y Java.
+- Facilita la comunicación con APIs RESTful.
+- Transforma automáticamente respuestas JSON/XML en objetos.
 
-## 1. Agregar dependencias
-- Retrofit
-- Conversores (Gson, Moshi, etc.)
+## Principales características
+- **Mapeo automático:** Convierte respuestas JSON/XML en POJOs.
+- **Basado en interfaces:** Declaración de endpoints como métodos de una interfaz.
+- **Interceptors:** Para modificar peticiones o respuestas.
+- **Integración con Gson/Moshi:** Manejo de serialización/deserialización.
+- **Soporte para coroutines:** Fácil manejo de llamadas asíncronas en Kotlin.
 
-## 2. Configurar Retrofit
-- Crear un cliente con `Retrofit.Builder`
-- Establecer URL base y convertidor
+## Arquitectura de Retrofit
+1. **Retrofit.Builder:**
+   - Configura la instancia de Retrofit.
+   - Define la URL base.
+   - Asigna convertidores como Gson o Moshi.
+2. **Interfaz de la API:**
+   - Define métodos HTTP (`@GET`, `@POST`, etc.).
+   - Especifica endpoints y parámetros.
+3. **Convertidores:**
+   - Transforman datos JSON/XML en objetos Java/Kotlin.
+4. **Adaptadores de llamadas:**
+   - Soporte para RxJava, coroutines o `Call`.
+5. **Cliente HTTP:**
+   - Generalmente usa OkHttp como backend.
 
-## 3. Definir la interfaz de la API
-- Declarar endpoints con anotaciones (`@GET`, `@POST`, etc.)
-- Especificar parámetros y respuestas
+## Ejemplo básico de Retrofit
+### Paso 1: Agregar dependencias
+```gradle
+implementation 'com.squareup.retrofit2:retrofit:<version>'
+implementation 'com.squareup.retrofit2:converter-gson:<version>'
+```
+### Paso 2: Crear interfaz de la API
+```kotlin
+Copiar código
+interface ApiService {
+    @GET("users")
+    suspend fun getUsers(): List<User>
+}
+```
+### Paso 3: Configurar Retrofit
+```kotlin
+Copiar código
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://api.example.com/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
 
-## 4. Crear instancia de la API
-- Utilizar `retrofit.create(Interface::class.java)`
-
-## 5. Llamar al servicio
-- Usar coroutines o `Call` para manejar las respuestas
-- Procesar datos recibidos o manejar errores
+val api = retrofit.create(ApiService::class.java)
+```
+### Paso 4: Realizar llamadas
+```kotlin
+Copiar código
+val users = api.getUsers()
+```
